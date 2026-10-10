@@ -6,7 +6,7 @@ import path from "path";
 import prompts from "prompts";
 import yargs from "yargs";
 
-import { RBXTS_SCOPE, TEMPLATES_DIR } from "../constants";
+import { TEMPLATES_DIR } from "../constants";
 import { InitError } from "../errors/InitError";
 import { benchmark } from "../util/benchmark";
 

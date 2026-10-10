@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "https://github.com/pine-forest-dweller/create-polytoria-ts"
 	},
 	"bin": {
 		"create-polytoria-ts": "out/index.js"
