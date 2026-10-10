@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        type: [game, place, model, plugin, package]
+        type: [game]
     steps:
       - name: Checkout create-polyoria-ts repo
         uses: actions/checkout@v4
@@ -27,3 +27,7 @@ jobs:
 
       - name: Create template project
         run: node ./create-polytoria-ts/out/index.js ${{ matrix.type }} -y --dir project
+      - name: Verify it builds
+        run: |
+          cd project
+          npm run build

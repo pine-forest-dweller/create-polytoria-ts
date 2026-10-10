@@ -226,7 +226,7 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 			build: "ptsc",
 			watch: "ptsc -w",
 			serve: "pojo",
-			dev: `concurrently -n "COMPILER,POJO"  "ptsc -w" "pojo"`,
+			dev: `concurrently -n "COMPILER,POJO" "ptsc -w" "pojo"`,
 		};
 		await fs.outputFile(paths.packageJson, JSON.stringify(pkgJson, null, 2));
 	});
