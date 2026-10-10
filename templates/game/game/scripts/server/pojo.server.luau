@@ -1,3 +1,7 @@
+if not Addons then
+	return
+end
+
 local addon = Addons.Register("pojo")
 addon.AddonName = "Pojo"
 addon:RequestPermissions({ IOWrite, IORead })
