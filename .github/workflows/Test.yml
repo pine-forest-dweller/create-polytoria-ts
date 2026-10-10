@@ -14,16 +14,16 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         type: [game, place, model, plugin, package]
     steps:
-      - name: Checkout create-roblox-ts repo
+      - name: Checkout create-polyoria-ts repo
         uses: actions/checkout@v4
         with:
-          path: create-roblox-ts
+          path: create-polytoria-ts
 
-      - name: Setup create-roblox-ts repo
+      - name: Setup create-polytoria-ts repo
         run: |
-          cd create-roblox-ts
+          cd create-polytoria-ts
           npm install
           npm run build
 
       - name: Create template project
-        run: node ./create-roblox-ts/out/index.js ${{ matrix.type }} -y --dir project
+        run: node ./create-polytoria-ts/out/index.js ${{ matrix.type }} -y --dir project

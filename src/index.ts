@@ -8,7 +8,7 @@ import { LoggableError } from "./errors/LoggableError";
 
 yargs
 	// help
-	.usage("Create a roblox-ts project from a template")
+	.usage("Create a polytoria-ts project from a template")
 	.help("help")
 	.alias("h", "help")
 	.describe("help", "show help information")

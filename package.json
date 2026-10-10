@@ -1,15 +1,15 @@
 {
-	"name": "create-roblox-ts",
-	"description": "Create a roblox-ts project from a template",
+	"name": "create-polytoria-ts",
+	"description": "Create a polytoria-ts project from a template",
 	"version": "2.0.5",
 	"author": "",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/roblox-ts/create-roblox-ts.git"
+		"url": ""
 	},
 	"bin": {
-		"create-roblox-ts": "out/index.js"
+		"create-polytoria-ts": "out/index.js"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",

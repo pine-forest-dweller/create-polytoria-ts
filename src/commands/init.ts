@@ -26,9 +26,6 @@ enum InitMode {
 	None = "none",
 	Game = "game",
 	Place = "place",
-	Model = "model",
-	Plugin = "plugin",
-	Package = "package",
 }
 
 enum PackageManager {
@@ -48,7 +45,7 @@ const packageManagerCommands: {
 } = {
 	[PackageManager.NPM]: {
 		init: "npm init -y",
-		devInstall: "npm install --silent -D",
+		devInstall: "npm install -D --allow-git=all",
 		build: "npm run build",
 	},
 	[PackageManager.Yarn]: {
@@ -141,7 +138,7 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 				type: () => initMode === InitMode.None && "select",
 				name: "template",
 				message: "Select template",
-				choices: [InitMode.Game, InitMode.Model, InitMode.Plugin, InitMode.Package].map(value => ({
+				choices: [InitMode.Game].map(value => ({
 					title: value,
 					value,
 				})),
@@ -226,17 +223,9 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 		await cmd(selectedPackageManager.init, cwd);
 		const pkgJson = await fs.readJson(paths.packageJson);
 		pkgJson.scripts = {
-			build: "rbxtsc",
-			watch: "rbxtsc -w",
+			build: "ptsc",
+			watch: "ptsc -w",
 		};
-		if (template === InitMode.Package) {
-			pkgJson.name = RBXTS_SCOPE + "/" + pkgJson.name;
-			pkgJson.main = "out/init.lua";
-			pkgJson.types = "out/index.d.ts";
-			pkgJson.files = ["out", "!**/*.tsbuildinfo"];
-			pkgJson.publishConfig = { access: "public" };
-			pkgJson.scripts.prepublishOnly = selectedPackageManager.build;
-		}
 		await fs.outputFile(paths.packageJson, JSON.stringify(pkgJson, null, 2));
 	});
 
@@ -256,9 +245,9 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 
 	await benchmark("Installing dependencies..", async () => {
 		const devDependencies = [
-			"roblox-ts" + (compilerVersion ? `@${compilerVersion}` : ""),
-			"@rbxts/compiler-types" + (compilerVersion ? `@compiler-${compilerVersion}` : ""),
-			"@rbxts/types",
+			"@polytoria-ts/compiler" + (compilerVersion ? `@${compilerVersion}` : ""),
+			"@polytoria-ts/compiler-types" + (compilerVersion ? `@compiler-${compilerVersion}` : ""),
+			"@polytoria-ts/types",
 			"typescript",
 		];
 
@@ -331,6 +320,7 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 			};
 			const settings = {
 				"typescript.tsdk": "node_modules/typescript/lib",
+				"typescript.enablePromptUseWorkspaceTsdk": true,
 				"files.eol": "\n",
 			};
 
@@ -378,13 +368,10 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 	}
 }
 
-const GAME_DESCRIPTION = "Generate a Roblox place";
-const MODEL_DESCRIPTION = "Generate a Roblox model";
-const PLUGIN_DESCRIPTION = "Generate a Roblox Studio plugin";
-const PACKAGE_DESCRIPTION = "Generate a roblox-ts npm package";
+const GAME_DESCRIPTION = "Generate a Polytoria game";
 
 /**
- * Defines behavior of `rbxtsc init` command.
+ * Defines behavior of `ptsc init` command.
  */
 export = {
 	command: ["$0", "init"],
@@ -393,7 +380,7 @@ export = {
 		yargs
 			.option("compilerVersion", {
 				string: true,
-				describe: "roblox-ts compiler version",
+				describe: "polytoria-ts compiler version",
 			})
 			.check(argv => {
 				if (argv.compilerVersion !== undefined && !/^\d+\.\d+\.\d+$/.test(argv.compilerVersion)) {
@@ -437,10 +424,7 @@ export = {
 				describe: "Do not run build script",
 			})
 
-			.command([InitMode.Game, InitMode.Place], GAME_DESCRIPTION, {}, argv => init(argv as never, InitMode.Game))
-			.command(InitMode.Model, MODEL_DESCRIPTION, {}, argv => init(argv as never, InitMode.Model))
-			.command(InitMode.Plugin, PLUGIN_DESCRIPTION, {}, argv => init(argv as never, InitMode.Plugin))
-			.command(InitMode.Package, PACKAGE_DESCRIPTION, {}, argv => init(argv as never, InitMode.Package)),
+			.command([InitMode.Game, InitMode.Place], GAME_DESCRIPTION, {}, argv => init(argv as never, InitMode.Game)),
 	handler: argv => init(argv, InitMode.None),
 	// eslint-disable-next-line @typescript-eslint/ban-types
 } satisfies yargs.CommandModule<{}, InitOptions>;

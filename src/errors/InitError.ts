@@ -8,6 +8,6 @@ export class InitError extends LoggableError {
 	}
 
 	toString() {
-		return `create-roblox-ts ${kleur.red("error")}: ${this.message}`;
+		return `create-polytoria-ts ${kleur.red("error")}: ${this.message}`;
 	}
 }
