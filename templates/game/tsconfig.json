@@ -16,6 +16,10 @@
 		"strict": true,
 		"target": "ESNext",
 		"typeRoots": ["node_modules/@polytoria-ts"],
+		"types": [
+			"types",
+			"compiler-types"
+		],
 
 		// configurable
 		"rootDir": "src",

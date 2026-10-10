@@ -45,7 +45,7 @@ const packageManagerCommands: {
 } = {
 	[PackageManager.NPM]: {
 		init: "npm init -y",
-		devInstall: "npm install -D --allow-git=all",
+		devInstall: "npm install -D",
 		build: "npm run build",
 	},
 	[PackageManager.Yarn]: {
@@ -225,6 +225,8 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 		pkgJson.scripts = {
 			build: "ptsc",
 			watch: "ptsc -w",
+			serve: "pojo",
+			dev: `concurrently -n "COMPILER,POJO"  "ptsc -w" "pojo"`,
 		};
 		await fs.outputFile(paths.packageJson, JSON.stringify(pkgJson, null, 2));
 	});
@@ -248,6 +250,8 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 			"@polytoria-ts/compiler" + (compilerVersion ? `@${compilerVersion}` : ""),
 			"@polytoria-ts/compiler-types" + (compilerVersion ? `@compiler-${compilerVersion}` : ""),
 			"@polytoria-ts/types",
+			"@polytoria-ts/pojo",
+			"concurrently",
 			"typescript",
 		];
 
