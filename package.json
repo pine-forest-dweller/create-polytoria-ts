@@ -1,7 +1,7 @@
 {
 	"name": "create-polytoria-ts",
 	"description": "Create a polytoria-ts project from a template",
-	"version": "2.0.10",
+	"version": "2.0.11",
 	"author": "",
 	"license": "MIT",
 	"repository": {
