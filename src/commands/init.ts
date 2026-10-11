@@ -247,7 +247,7 @@ async function init(argv: yargs.Arguments<InitOptions>, initMode: InitMode) {
 
 	await benchmark("Installing dependencies..", async () => {
 		const devDependencies = [
-			"@polytoria-ts/compiler" + (compilerVersion ? `@${compilerVersion}` : ""),
+			"@polytoria-ts" + (compilerVersion ? `@${compilerVersion}` : ""),
 			"@polytoria-ts/compiler-types" + (compilerVersion ? `@compiler-${compilerVersion}` : ""),
 			"@polytoria-ts/types",
 			"@polytoria-ts/pojo",
